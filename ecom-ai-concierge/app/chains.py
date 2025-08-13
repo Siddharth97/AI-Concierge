@@ -7,7 +7,7 @@ from config import LLM_MODEL
 
 def test_search():
     retriever = get_retriever()
-    results = retriever.similarity_search("budget gaming laptop", k=3)
+    results = retriever.similarity_search("budget a wallet", k=3)
     print(f"Search results count: {len(results)}")
     for r in results:
         print(r.page_content)
@@ -28,6 +28,6 @@ def run_qa_chain(query: str):
 
 if __name__ == "__main__":
     test_search()
-    question = "Find a budget gaming laptop under $800"
+    question = "Find a budget purse under $800"
     answer = run_qa_chain(question)
     print(f"QA chain answer: {answer}")

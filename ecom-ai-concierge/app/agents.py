@@ -61,6 +61,6 @@ def run_multi_agent_flow(user_query: str):
     return {"expert": expert_out, "final": final}
 
 if __name__ == "__main__":
-    q = "Find a budget-friendly gaming laptop under $800 that ships fast"
+    q = "Find a budget friendly purse under $800 that ships fast"
     out = run_multi_agent_flow(q)
     print(out["final"])
