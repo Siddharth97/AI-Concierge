@@ -1,0 +1,4 @@
+# Ignore Chroma DB binary files
+chroma_db/
+*.chromadb
+*.bin
