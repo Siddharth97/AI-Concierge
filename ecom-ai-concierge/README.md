@@ -19,12 +19,12 @@ Quickstart
 bash```
 git clone <your-repo-url>
 cd ecom-ai-concierge
-```
+
 
 2️⃣ Create .env with your OpenAI API key
 bash```
 echo "OPENAI_API_KEY=sk-..." > .env
-```
+
 
 3️⃣ Create Python venv and install dependencies
 bash```
