@@ -1,0 +1,20 @@
+# Core libraries
+openai>=0.27.0
+langchain>=0.3.27
+langchain-community>=0.3.27
+chromadb>=0.3.23
+streamlit>=1.22.0
+
+# Data processing and utility
+pandas>=2.2.1
+numpy>=1.26.0,<2.0.0
+python-dotenv>=1.0.0
+tqdm>=4.66.1
+
+# Optional, useful extras
+# altair>=4.2.2
+# validators>=0.35.0
+# tenacity>=8.5.0
+# tzlocal>=5.3.1
+# pympler>=1.1
+# toolz>=1.0.0
