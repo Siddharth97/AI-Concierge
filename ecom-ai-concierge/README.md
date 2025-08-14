@@ -1,4 +1,4 @@
-E-commerce AI Concierge (Hackathon Scaffold)
+E-commerce AI Concierge 
 
 Overview
 
@@ -49,6 +49,11 @@ bash```
 streamlit run streamlit_app.py
 ```
 
+To run Evals
+```bash
+ python -m app.chains
+ ```
+ 
 Python Version Notes
 
 Some dependencies may not support Python 3.13 yet.
