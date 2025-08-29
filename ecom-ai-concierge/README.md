@@ -21,3 +21,41 @@ Toggle **AutoGen mode** in `config.py`.
 git clone <your-repo-url>
 cd ecom-ai-concierge
 ```
+
+### 2.  Create .env with your OpenAI API key
+```bash
+echo "OPENAI_API_KEY=sk-..." > .env
+```
+
+### 3. Create Python virtual environment and install dependencies
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install numpy==1.26.4 pandas==2.2.1
+pip install -r requirements.txt --use-feature=fast-deps
+```
+
+### 4.  Save your current dependencies
+```bash
+pip freeze > requirements.txt
+```
+
+### 5.  Populate the vector database
+```bash
+python app/populate_and_test_vectorstore.py
+```
+
+### 6.  Run the Streamlit app
+```bash
+streamlit run streamlit_app.py
+```
+
+### 7.  Run Evals
+```bash
+python -m app.chains
+```
+
+### 8.  Demonstrate Langchain Tools LLM function calling
+```bash
+python -m app.chains agent "find me a purse under 500"
+```

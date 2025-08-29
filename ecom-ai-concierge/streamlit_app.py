@@ -17,7 +17,7 @@ with st.spinner("Initializing vector store..."):
     db = init_vectorstore()
 
 # UI layout
-st.title("Tory Burch AI Concierge — Hackathon POC")
+st.title("Ecom AI Concierge — POC")
 
 col1, col2 = st.columns([2, 1])
 
