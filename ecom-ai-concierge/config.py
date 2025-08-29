@@ -1,5 +1,5 @@
 # Toggle to True to run the multi-agent AutoGen-like mode
-USE_AUTOGEN = False
+USE_AUTOGEN = True
 
 # Chroma persistence
 CHROMA_PERSIST_DIR = "./chroma_db"
@@ -8,4 +8,4 @@ CHROMA_PERSIST_DIR = "./chroma_db"
 EMBEDDING_MODEL = "text-embedding-3-small"
 
 # LLM model name
-LLM_MODEL = "gpt-4o-mini"  # replace with whatever you have access to
+LLM_MODEL = "gpt-4o-mini"  

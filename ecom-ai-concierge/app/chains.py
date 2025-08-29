@@ -1,4 +1,5 @@
 import csv
+import sys
 from dotenv import load_dotenv
 from config import LLM_MODEL
 from app.vector_store import get_retriever
@@ -12,6 +13,14 @@ from langchain.evaluation import EmbeddingDistanceEvalChain
 load_dotenv()
 
 # ---------------------------------------------------
+# TOOL for function calling
+# ---------------------------------------------------
+@tool
+def search_products(query: str) -> str:
+    """Searches the product database and returns matching results."""
+    return run_qa_chain(query)
+
+# ---------------------------------------------------
 # QA Chain
 # ---------------------------------------------------
 def run_qa_chain(query: str):
@@ -22,17 +31,29 @@ def run_qa_chain(query: str):
     return result["result"] if isinstance(result, dict) else result
 
 # ---------------------------------------------------
+# Agent using OpenAI function calling
+# ---------------------------------------------------
+def run_agent(query: str):
+    llm = ChatOpenAI(model=LLM_MODEL, temperature=0)
+    tools = [search_products]
+    agent = initialize_agent(
+        tools=tools,
+        llm=llm,
+        agent=AgentType.OPENAI_FUNCTIONS,
+        verbose=True
+    )
+    return agent.run(query)
+
+# ---------------------------------------------------
 # Batch Semantic Evaluation
 # ---------------------------------------------------
 def batch_evaluate(file_path: str):
-    # Use OpenAI embeddings for semantic similarity
     embeddings = OpenAIEmbeddings()
     eval_chain = EmbeddingDistanceEvalChain(embedding=embeddings, distance_metric="cosine")
 
     examples = []
     predictions = []
 
-    # Load dataset
     with open(file_path, newline="", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
@@ -48,16 +69,14 @@ def batch_evaluate(file_path: str):
             print(f"Predicted: {prediction}")
             print(f"Ideal: {ideal_answer}\n")
 
-    # Evaluate with semantic similarity
     print("\n--- Semantic Evaluation Results ---")
     for i, ex in enumerate(examples):
-        # Evaluate_strings now returns a dict with a "score" key
         eval_result = eval_chain.evaluate_strings(
             prediction=predictions[i]["result"],
             reference=ex["ideal"]
         )
-        similarity = 1 - eval_result["score"]  # Convert cosine distance → similarity
-        color = "\033[92m" if similarity >= 0.85 else "\033[91m"  # Green if good, red if bad
+        similarity = 1 - eval_result["score"]
+        color = "\033[92m" if similarity >= 0.85 else "\033[91m"
         reset = "\033[0m"
 
         print(f"Q{i+1}: {ex['query']}")
@@ -68,4 +87,11 @@ def batch_evaluate(file_path: str):
 # CLI Entry
 # ---------------------------------------------------
 if __name__ == "__main__":
-    batch_evaluate("data/eval_dataset.csv")
+    if len(sys.argv) == 1:
+        batch_evaluate("data/eval_dataset.csv")
+    elif sys.argv[1] == "agent":
+        query = " ".join(sys.argv[2:]) if len(sys.argv) > 2 else "Find a budget purse under $800"
+        print(run_agent(query))
+    elif sys.argv[1] == "qa":
+        query = " ".join(sys.argv[2:]) if len(sys.argv) > 2 else "Find a budget purse under $800"
+        print(run_qa_chain(query))

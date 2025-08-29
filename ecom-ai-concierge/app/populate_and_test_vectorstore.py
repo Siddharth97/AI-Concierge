@@ -69,7 +69,7 @@ def main():
     vectordb.add_documents(all_docs)
 
     # Test retrieval
-    query = "Find a budget gaming laptop under $800"
+    query = "Find a budget purse under $800"
     print(f"\nTesting retrieval for query: '{query}'")
     results = vectordb.similarity_search(query, k=4)
 
